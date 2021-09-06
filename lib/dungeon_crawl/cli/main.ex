@@ -1,10 +1,24 @@
 defmodule DungeonCrawl.CLI.Main do
   alias Mix.Shell.IO, as: Shell
 
+  alias DungeonCrawl.CLI.RoomActionsChoice
+  alias DungeonCrawl.CLI.HeroChoice
+
   def start_game do
     welcome_message()
     Shell.prompt("Press Enter to continue")
     hero_choice()
+    crawl(DungeonCrawl.Room.all())
+  end
+
+  defp crawl(rooms) do
+    Shell.info("You keep moving forward to the next room.")
+    Shell.prompt("Press Enter to continue")
+    Shell.cmd("clear")
+
+    rooms
+    |> Enum.random()
+    |> RoomActionsChoice.start()
   end
 
   defp welcome_message do
@@ -14,6 +28,6 @@ defmodule DungeonCrawl.CLI.Main do
   end
 
   defp hero_choice do
-    DungeonCrawl.CLI.HeroChoice.start()
+    HeroChoice.start()
   end
 end
